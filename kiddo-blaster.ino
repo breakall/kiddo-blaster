@@ -1,8 +1,15 @@
-/*
- * IRremoteESP8266: IRrecvDemo - demonstrates receiving IR codes with IRrecv
- * An IR detector/demodulator must be connected to the input RECV_PIN.
- * Version 0.1 Sept, 2015
- * Based on Ken Shirriff's IrsendDemo Version 0.1 July, 2009, Copyright 2009 Ken Shirriff, http://arcfn.com
+/* Kiddo Blaster
+ * An infrared remote controlled MP3 player.
+ *
+ * Infrared received: CHQ1838
+ * MP3 player: YX5300
+ *
+ * Based on:
+ * IRrecvDemo (IRremoteESP8266) https://github.com/markszabo/IRremoteESP8266
+ * ArduinoSerialMP3Player https://github.com/salvadorrueda/ArduinoSerialMP3Player
+ * 
+ * Assumes two folders on the SD card inserted into the YX5300 named "01" and "02".
+ * MP3s in the folders should have a prefix in the name of "001", "002", and so on.
  */
 
 // wifi off -- see setup()
@@ -11,7 +18,7 @@
 
 // INFRARED 
 #include <IRremoteESP8266.h>
-int RECV_PIN = 2; // GPIO 2 is D4 on the ESP12E board
+int RECV_PIN = 2; // GPIO 2 is labeled D4 on the ESP12E board
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 
@@ -21,9 +28,6 @@ decode_results results;
 #define RX_PIN 13  // D7
 #define TX_PIN 15  // D8
 SoftwareSerial mp3(RX_PIN, TX_PIN);
-
-
-
 
 
 // IR remote map - BUTTON_X_Y from top left
@@ -104,12 +108,10 @@ String sbyte2hex(uint8_t b);
 
 
 //################################################################
-//################################################################
 
 void setup()
 {
-  // turn wifi off
-
+  // turn wifi off to save power
   WiFi.disconnect();
   WiFi.mode(WIFI_OFF);
   WiFi.forceSleepBegin();
@@ -313,49 +315,6 @@ void sendMP3Command(char c) {
       sendCommand(CMD_RESET);
       break;
 
-
-// SAB TEST COMMANDS
-
-    case 'n':
-      Serial.println("Playing folder 1");
-      sendCommand(CMD_PLAY_FOLDER_FILE, 2, 1);
-      break;
-
-    case 'm':
-      Serial.println("Playing folder 2");
-      sendCommand(CMD_PLAY_FOLDER_FILE, 2, 2);
-      break;  
-
-//    case 'f':
-//      Serial.println("Playing folder 1");
-//      sendCommand(CMD_PLAY_FOLDER_FILE, 2, 1);
-//      break;
-//
-//    case 'g':
-//      Serial.println("Playing folder 2");
-//      sendCommand(CMD_PLAY_FOLDER_FILE, 2, 2);
-//      break;  
-
-//    case 'n':
-//      Serial.println("Play track 1");
-//      sendCommand(CMD_PLAY_W_VOL, 30, 1);
-//      break;
-//
-//    case 'm':
-//      Serial.println("Play track 15");
-//      sendCommand(CMD_PLAY_W_VOL, 30, 15);
-//      break;
-
-    case 'f':
-      Serial.println("Playing folder 1");
-      sendCommand(CMD_FOLDER_CYCLE, 1, 0);
-      break;
-
-    case 'g':
-      Serial.println("Playing folder 2");
-      sendCommand(CMD_FOLDER_CYCLE, 2, 0);
-      break;  
-    
   }
 }
 
@@ -479,7 +438,7 @@ int shex2int(char *s, int n){
 
 
 /********************************************************************************/
-/*Function: sanswer. Returns a String answer from mp3 UART module.          */
+/*Function: sanswer. Returns a String answer from mp3 UART module.              */
 /*Parameter:- uint8_t b. void.                                                  */
 /*Return: String. If the answer is well formated answer.                        */
 

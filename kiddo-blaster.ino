@@ -1,7 +1,7 @@
 /* Kiddo Blaster
  * An infrared remote controlled MP3 player.
  *
- * Infrared received: CHQ1838
+ * Infrared receiver: CHQ1838
  * MP3 player: YX5300
  *
  * Based on:

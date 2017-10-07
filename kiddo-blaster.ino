@@ -5,21 +5,26 @@
  * Based on Ken Shirriff's IrsendDemo Version 0.1 July, 2009, Copyright 2009 Ken Shirriff, http://arcfn.com
  */
 
+// wifi off -- see setup()
+#include <ESP8266WiFi.h>
 
 
 // INFRARED 
 #include <IRremoteESP8266.h>
-#include <SoftwareSerial.h>
-SoftwareSerial mp3(RX_PIN, TX_PIN);
-
 int RECV_PIN = 2; // GPIO 2 is D4 on the ESP12E board
 IRrecv irrecv(RECV_PIN);
 decode_results results;
 
 
 // YX5300 MP3
+#include <SoftwareSerial.h>
 #define RX_PIN 13  // D7
 #define TX_PIN 15  // D8
+SoftwareSerial mp3(RX_PIN, TX_PIN);
+
+
+
+
 
 // IR remote map - BUTTON_X_Y from top left
 #define BUTTON_BRIGHTNESS_UP 0x8503705D //brightness up
@@ -103,6 +108,13 @@ String sbyte2hex(uint8_t b);
 
 void setup()
 {
+  // turn wifi off
+
+  WiFi.disconnect();
+  WiFi.mode(WIFI_OFF);
+  WiFi.forceSleepBegin();
+  delay(1);
+  
   Serial.begin(9600);
   irrecv.enableIRIn(); // Start the receiver
 

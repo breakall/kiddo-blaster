@@ -1,5 +1,5 @@
 # Kiddo Blaster
-ESP12 + IR + YX5300 MP3 player
+ESP-12E + IR + YX5300 MP3 player
 
 
 

@@ -5,7 +5,7 @@
  * MP3 player: YX5300
  *
  * Based on:
- * IRrecvDemo (IRremoteESP8266) https://github.com/markszabo/IRremoteESP8266
+ * IRrecvDemo (IRremoteESP8266 v1.2) https://github.com/markszabo/IRremoteESP8266
  * ArduinoSerialMP3Player https://github.com/salvadorrueda/ArduinoSerialMP3Player
  * 
  * Assumes two folders on the SD card inserted into the YX5300 named "01" and "02".
@@ -44,22 +44,22 @@ SoftwareSerial mp3(RX_PIN, TX_PIN);
 #define BUTTON_2_0 0xD3FD9A81 //
 #define BUTTON_2_1 0x6471EC7D //
 #define BUTTON_2_2 0x9D52009D //
-//#define BUTTON_2_3 CE1972FD //
+#define BUTTON_FLASH 0xF7D02F // CE1972FD? FLASH
 
 #define BUTTON_3_0 0x84044BBD //
 #define BUTTON_3_1 0x14789DB9 //
 //#define BUTTON_3_2 
-//#define BUTTON_3_3 
+#define BUTTON_STROBE 0xF7F00F //STROBE
 //
 //#define BUTTON_4_0 
 //#define BUTTON_4_1 
 //#define BUTTON_4_2 
-//#define BUTTON_4_3 
+#define BUTTON_FADE 0xF7C837// FADE
 //
 //#define BUTTON_5_0 
 //#define BUTTON_5_1 
 //#define BUTTON_5_2 
-//#define BUTTON_5_3 
+//#define BUTTON_SMOOTH 0xF7E817 //SMOOTH
 
 
 static int8_t Send_buf[8] = {0}; // Buffer for Send commands.  // BETTER LOCALLY
@@ -138,21 +138,29 @@ void loop() {
     switch(results.value)
     {
       case BUTTON_BRIGHTNESS_UP:
-        sendCommand(CMD_NEXT_SONG);                 //NEXT
+        sendCommand(CMD_PREV_SONG);                 //PREV
         break;
       case BUTTON_BRIGHTNESS_DOWN:
-        sendCommand(CMD_PREV_SONG);                 //PREVIOUS
+        sendCommand(CMD_NEXT_SONG);                 //NEXT
         break;
       case BUTTON_OFF:
         sendCommand(CMD_RESET);                     //reset
         break;
       case BUTTON_ON:
-        sendCommand(CMD_FOLDER_CYCLE, 1, 0);        //play sleepy time folder
+        sendCommand(CMD_FOLDER_CYCLE, 1, 0);        //play sleepy time folder with all 3 albums
         break;
       case BUTTON_1_3:
         sendCommand(CMD_FOLDER_CYCLE, 2, 0);        //play storybook folder folder
         break;
-      
+      case BUTTON_FLASH:
+        sendCommand(CMD_FOLDER_CYCLE, 3, 0);        //play Come to the Cradle album
+        break; 
+      case BUTTON_STROBE:
+        sendCommand(CMD_FOLDER_CYCLE, 4, 0);        //play Sleep Sound in Jesus album
+        break;
+      case BUTTON_FADE:
+        sendCommand(CMD_FOLDER_CYCLE, 5, 0);        //play I Love You More album
+        break;
       
       //play individual story books
       

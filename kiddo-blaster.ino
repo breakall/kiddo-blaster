@@ -48,18 +48,18 @@ SoftwareSerial mp3(RX_PIN, TX_PIN);
 
 #define BUTTON_3_0 0x84044BBD //
 #define BUTTON_3_1 0x14789DB9 //
-//#define BUTTON_3_2 
+#define BUTTON_3_2 0x3E121C21 //
 #define BUTTON_STROBE 0xF7F00F //STROBE
-//
-//#define BUTTON_4_0 
-//#define BUTTON_4_1 
-//#define BUTTON_4_2 
+
+#define BUTTON_4_0 0xB0F9B3E1
+#define BUTTON_4_1 0x416E05DD
+#define BUTTON_4_2 0x6A844445
 #define BUTTON_FADE 0xF7C837// FADE
-//
-//#define BUTTON_5_0 
-//#define BUTTON_5_1 
-//#define BUTTON_5_2 
-//#define BUTTON_SMOOTH 0xF7E817 //SMOOTH
+
+#define BUTTON_5_0 0x9DE75E1D
+#define BUTTON_5_1 0xF794B621
+#define BUTTON_5_2 0x57F52E81
+#define BUTTON_SMOOTH 0xF7E817 //SMOOTH
 
 
 static int8_t Send_buf[8] = {0}; // Buffer for Send commands.  // BETTER LOCALLY
@@ -188,7 +188,28 @@ void loop() {
       case BUTTON_3_1:
         sendCommand(CMD_PLAY_FOLDER_FILE, 2, 8);    
         break;
-      
+      case BUTTON_3_2:
+        sendCommand(CMD_PLAY_FOLDER_FILE, 2,  9);    
+        break;
+      case BUTTON_4_0:
+        sendCommand(CMD_PLAY_FOLDER_FILE, 2,  10);    
+        break;
+      case BUTTON_4_1:
+        sendCommand(CMD_PLAY_FOLDER_FILE, 2,  11);    
+        break;
+      case BUTTON_4_2:
+        sendCommand(CMD_PLAY_FOLDER_FILE, 2,  12);    
+        break;
+      case BUTTON_5_0:
+        sendCommand(CMD_PLAY_FOLDER_FILE, 2,  13);    
+        break;    
+      case BUTTON_5_1:
+        sendCommand(CMD_PLAY_FOLDER_FILE, 2,  14);    
+        break;
+      case BUTTON_5_2:
+        sendCommand(CMD_PLAY_FOLDER_FILE, 2,  15);    
+        break;
+              
     } 
     
     irrecv.resume(); // Receive the next value

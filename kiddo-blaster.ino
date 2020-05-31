@@ -1,6 +1,7 @@
 /* Kiddo Blaster
  * An infrared remote controlled MP3 player.
- *
+ * 
+ * Board: NodeMCU 1.0 (ESP-12E Module) v2.3
  * Infrared receiver: CHQ1838
  * MP3 player: YX5300
  *
@@ -127,6 +128,13 @@ void setup()
 
   sendCommand(CMD_SEL_DEV, 0, DEV_TF);
   delay(500);
+
+  // default volume is way too loud; query command doesn't seem to work, but volume up and down work, so send a bunch of volume down commands at boot up 
+  int i;
+  for (i = 0; i<22; i++)
+    {
+      sendCommand(CMD_VOLUME_DOWN );
+    }
 }
 
 //################################################################
@@ -204,10 +212,16 @@ void loop() {
         sendCommand(CMD_PLAY_FOLDER_FILE, 2,  13);    
         break;    
       case BUTTON_5_1:
-        sendCommand(CMD_PLAY_FOLDER_FILE, 2,  14);    
+        for(int i=0;i<6;i++)
+        {
+          sendCommand(CMD_VOLUME_UP);    
+        }
         break;
       case BUTTON_5_2:
-        sendCommand(CMD_PLAY_FOLDER_FILE, 2,  15);    
+        for(int i=0;i<6;i++)
+        {
+          sendCommand(CMD_VOLUME_DOWN );    
+        }
         break;
               
     } 
